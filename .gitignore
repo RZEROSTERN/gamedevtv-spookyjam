@@ -7,6 +7,7 @@ AGENTS.local.md
 [Uu]ser[Ss]ettings/
 Builds/
 *.csproj
+!Tools/Simulation/Simulation.csproj
 *.sln
 *.slnx
 .vs/
