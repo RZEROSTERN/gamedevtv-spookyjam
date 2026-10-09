@@ -1,0 +1,13 @@
+AGENTS.local.md
+.DS_Store
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+Builds/
+*.csproj
+*.sln
+*.slnx
+.vs/
+.idea/
