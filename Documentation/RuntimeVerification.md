@@ -8,4 +8,4 @@ Additional pointer-event checks covered the visible joystick center and all four
 
 Editor-only SearchInit.IndexationOnStartup exceptions recorded separately: 1. This Unity Search indexing exception is a known limitation of this verification environment, not counted as a passing scene check.
 
-See BrowserVerification.md for separate desktop, emulation and Pixel 10 hardware checks. Simultaneous physical multitouch and other mobile devices remain pending.
+See [BrowserVerification.md](BrowserVerification.md) for separate desktop, emulation and Pixel 10 hardware checks, and [TouchVerification.md](TouchVerification.md) for subsequent human finger and physical two-contact results. Constructed pointer events do not replace these physical checks; uncorroborated gesture sequences and other mobile devices remain pending as specified in the touch report.

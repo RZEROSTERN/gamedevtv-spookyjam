@@ -44,6 +44,12 @@ Pressing **Play again** after victory restored preparation for wave 1 with 20 re
 
 ![Pixel 10 five-wave victory](Screenshots/pixel10-victory.png)
 
+## Human finger and multitouch follow-up: October 10, 2026
+
+A person subsequently played the same merged PR #3 build on the Pixel 10 using their own fingers and reported that the controls felt comfortable. Synchronized touchscreen traces captured **two simultaneous physical contacts**, with screen video and tester feedback supporting joystick owner-release cancellation, construction dialog cancellation, and pause/resume cancellation while the original finger remained down. No automated input was sent during the captures and no gameplay or build changes were made.
+
+See [the physical touch report](TouchVerification.md) for per-case results, contact-transition CSV files, game-only frames and limitations. The tester also reported that releasing the second finger preserved the owner's control, but a matching release-order sequence was not independently captured. An isolated four-direction/small-motion finger sequence remains uncorroborated. These results do not certify ergonomics across people, devices or orientations.
+
 ## English UI and mobile layout: October 10, 2026
 
 Unity 6000.3.5f2 IL2CPP Web build: **17,232,559 bytes**. Served locally over HTTP from `Builds/Web` and inspected in desktop Chrome on the development Mac. Mobile cases below use Chrome DevTools emulation, not physical phones or Safari.
@@ -93,4 +99,4 @@ These samples cover restart and board selection, not every button at every durat
 
 ## Pending checks
 
-Physical mouse and finger usability, simultaneous physical multitouch, dynamic mobile browser bars, other safe-area/cutout shapes, human session timing, sustained phone performance, and other browsers/devices. The complete five-wave Web victory was observed on Pixel 10; that hardware result remains limited to the tested Chrome version and ADB input. Responsive emulation and constructed pointer events remain separate from that hardware run.
+Physical mouse usability, broader finger usability, independently capturing the remaining finger sequences listed in the touch report, dynamic mobile browser bars, other safe-area/cutout shapes, human session timing, sustained phone performance, and other browsers/devices. The complete five-wave Web victory was observed on Pixel 10; that full-match result remains limited to the tested Chrome version and ADB input. The subsequent human touch session, responsive emulation and constructed pointer events have separate scopes.
