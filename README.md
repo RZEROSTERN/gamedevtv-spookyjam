@@ -1,17 +1,21 @@
-# Colados / Uninvited
+# Uninvited
 
-Prototipo 2D de defensa por cinco oleadas para GameDevTV Spooky Game Jam 2026.
-Unity **6000.3.5f2**; placeholders geométricos; Web con teclado, mouse y joystick táctil.
+A 2D, five-wave defense game for GameDevTV Halloween Jam 2026.
+Built with **Unity 6000.3.5f2**, geometric placeholders, keyboard/mouse input, and a touch joystick.
 
-La rama `master` contiene la versión de producción. El desarrollo se realiza en ramas de trabajo.
+`master` is the production branch. Changes are developed on separate branches and reviewed through pull requests targeting `master`.
 
-Abre este proyecto en Unity, ejecuta **Uninvited → Generate game scene**, abre
-`Assets/Uninvited/Scenes/Uninvited.unity` y pulsa Play. Para exportar, usa
-**Uninvited → Build Web**.
+Open `Assets/Uninvited/Scenes/Uninvited.unity` in Unity and press Play.
+**Uninvited → Generate game scene** can regenerate the scene; **Uninvited → Build Web** exports to `Builds/Web`.
+Serve the output over HTTP:
 
-[Guía de implementación, balance, exportación y pruebas](Documentation/Implementation.md).
+```sh
+python3 -m http.server 8080 --directory Builds/Web
+```
 
-**Estado:** importado y compilado en Unity 6000.3.5f2; 44 verificaciones de simulación
-y 64 comprobaciones de escena en Play Mode aprobadas. Build Web en `Builds/Web`,
-probada en Chrome hasta derrota y reinicio, con movimiento y compra.
-Consulta la guía para conocer las pruebas pendientes y limitaciones del entorno.
+Open the party, build defenses during preparation, and start each wave when ready. Move with WASD, arrow keys, or the joystick. Attacks are automatic. Save the party by surviving all five waves with candy reserves remaining.
+
+[Implementation, balancing, export, and verification guide](Documentation/Implementation.md).
+
+The game, Web loading page, and delivery documentation are in English.
+Simulation and Play Mode checks are documented separately from browser checks; real mobile devices and simultaneous physical multitouch remain unverified.
