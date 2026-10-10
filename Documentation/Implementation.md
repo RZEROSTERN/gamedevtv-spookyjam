@@ -2,7 +2,7 @@
 
 ## Alcance y decisiones
 
-Proyecto nuevo para Unity **6000.3.5f2**, versión encontrada en este equipo. No había proyecto Unity previo ni remoto Git. `master` conserva el commit inicial; el prototipo se desarrolla en `feature/uninvited-prototype`.
+Proyecto nuevo para Unity **6000.3.5f2**, versión encontrada en este equipo. Se partió sin proyecto Unity previo ni remoto Git. El remoto es ahora `RZEROSTERN/gamedevtv-spookyjam`: `master` conserva el commit inicial con el README provisional y `.gitignore`; el prototipo se entrega para revisión desde `feature/uninvited-prototype` mediante un PR hacia `master`.
 
 Renderizado integrado, uGUI 2.0.0 y el sistema de entrada integrado de Unity. No se mezclan sistemas de entrada. No se requieren imágenes descargadas, fuentes externas, cuentas, backend ni servicios para jugar. Los únicos paquetes son uGUI y módulos incluidos con el editor.
 
@@ -99,7 +99,7 @@ El segundo comando exige .NET 8 y la instalación local de Unity. Puedes cambiar
 
 Pruebas pendientes: victoria manual de cinco oleadas en navegador, comodidad de uso con mouse físico, joystick táctil y multitouch simultáneo, controles sin interferencia, orientación móvil horizontal, zonas seguras y rendimiento en dispositivos reales. Los clics breves, partida hasta derrota, reinicio y pérdida de foco se comprobaron en Chrome de escritorio con los límites del informe; deben repetirse en otros navegadores y dispositivos concretos.
 
-No se abrió un pull request: no hay remoto configurado. La revisión debe partir de un PR funcional, con estas limitaciones visibles.
+La entrega para revisión reúne el prototipo funcional y sus informes en un único PR hacia `master`, con estas limitaciones visibles. Tras abrirlo se pausa el trabajo para revisión; la implementación se incorpora a producción únicamente cuando se apruebe y fusione el PR.
 
 ## Referencia de arquitectura
 
