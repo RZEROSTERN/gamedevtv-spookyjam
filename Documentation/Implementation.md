@@ -84,6 +84,7 @@ La lógica no conoce sprites. Sustituye la creación de formas en `GameWorldView
 - La escena pasó 64 comprobaciones en Play Mode: arranque, material y geometría de sprites, menú, botones de compra, aparición de enemigos, pausa, reanudación, manejador de pérdida de foco, reinicio y limpieza de objetos. El informe está en `RuntimeVerification.md`.
 - Se generó una build Web mediante IL2CPP y se abrió en Chrome desde localhost. La primera inspección detectó un shader de máscara incorrecto para los placeholders; se corrigió a `Sprites/Default` y se añadieron comprobaciones para detectarlo.
 - En Chrome se comprobó movimiento con teclado, selección y confirmación de una compra, pérdida de foco con reanudación explícita y una partida hasta derrota seguida de reinicio. La compra descontó 50 recursos una sola vez. El informe y los límites de automatización están en `BrowserVerification.md`.
+- Una comprobación posterior confirmó clics sin arrastre de 48 y 97 ms en reinicio, y de 51 ms en selección del tablero. Los fallos anteriores de automatización correspondían a clics que no emitían movimiento y dejaban desactualizada la posición del mouse en Unity; no fue necesario cambiar la lógica de entrada.
 - El editor 6000.3.5f2 registra una excepción de su indexador `UnityEditor.Search.SearchInit.IndexationOnStartup` al arrancar estas pruebas batch. Se informa por separado; no se cuenta como prueba aprobada ni como error de gameplay. No hubo errores del juego en las comprobaciones de escena.
 - Las comprobaciones independientes de .NET/Roslyn verifican lógica y compilación; las comprobaciones de escena y navegador se ejecutaron por separado.
 
@@ -96,7 +97,7 @@ dotnet run --project Tools/Simulation/Simulation.csproj
 
 El segundo comando exige .NET 8 y la instalación local de Unity. Puedes cambiar la ruta con `-p:UnityPath=/ruta/Unity.app`. No descarga paquetes NuGet. Dentro del editor, usa **Uninvited → Verify gameplay rules** para ejecutar las mismas comprobaciones en Unity. La prueba de escena usa `-executeMethod Uninvited.Editor.RuntimeVerification.Run` sin `-quit`; termina por sí misma y restaura las opciones de Play Mode. Invoca callbacks de botones; no sustituye las pruebas de mouse y touch.
 
-Pruebas pendientes: victoria manual de cinco oleadas en navegador, pulsaciones breves y comodidad de uso, joystick táctil y multitouch simultáneo, controles sin interferencia, orientación móvil horizontal, zonas seguras y rendimiento en dispositivos reales. La partida hasta derrota, reinicio y pérdida de foco se comprobaron en Chrome de escritorio; deben repetirse en otros navegadores y dispositivos concretos.
+Pruebas pendientes: victoria manual de cinco oleadas en navegador, comodidad de uso con mouse físico, joystick táctil y multitouch simultáneo, controles sin interferencia, orientación móvil horizontal, zonas seguras y rendimiento en dispositivos reales. Los clics breves, partida hasta derrota, reinicio y pérdida de foco se comprobaron en Chrome de escritorio con los límites del informe; deben repetirse en otros navegadores y dispositivos concretos.
 
 No se abrió un pull request: no hay remoto configurado. La revisión debe partir de un PR funcional, con estas limitaciones visibles.
 
