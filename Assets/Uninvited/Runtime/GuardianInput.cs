@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Uninvited
 {
@@ -29,13 +28,17 @@ namespace Uninvited
                 for (var i = 0; i < Input.touchCount; i++)
                 {
                     var touch = Input.GetTouch(i);
-                    if (touch.phase == TouchPhase.Began && !EventSystem.current.IsPointerOverGameObject(touch.fingerId)) Select(touch.position);
+                    if (touch.phase == TouchPhase.Began) TrySelect(touch.position);
+                    if (hud.ModalOpen) break;
                 }
             }
-            else if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) Select(Input.mousePosition);
+            else if (Input.GetMouseButtonDown(0)) TrySelect(Input.mousePosition);
         }
-        void Select(Vector2 screenPoint)
+        // Raycast this press position directly; cached pointer-over-UI state can
+        // describe the previous frame before StandaloneInputModule processes it.
+        public void TrySelect(Vector2 screenPoint)
         {
+            if (game.Phase != GamePhase.Preparation || hud.ModalOpen || hud.BlocksBoardInput(screenPoint)) return;
             if (!world.Camera.pixelRect.Contains(screenPoint)) return;
             var point = (Vector2)world.Camera.ScreenToWorldPoint(screenPoint);
             for (var i = 0; i < game.Sites.Length; i++)

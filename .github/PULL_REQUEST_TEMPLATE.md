@@ -1,11 +1,11 @@
-## Cambio y comportamiento
+## Summary
 
-<!-- Describe el problema y el resultado jugable. Destino: master; nunca main. -->
+<!-- Describe the problem and resulting playable behavior. Target master. -->
 
-## Cómo probar
+## How to test
 
-<!-- Editor exacto, escena, controles y comprobaciones ejecutadas. -->
+<!-- Exact editor version, scene, controls, and checks performed. -->
 
-## Limitaciones conocidas
+## Known limitations
 
-<!-- Distingue pruebas ejecutadas de las pendientes. Cada PR debe ser funcional. -->
+<!-- Distinguish completed checks from pending ones. Each PR must be functional. -->

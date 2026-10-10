@@ -58,6 +58,59 @@ namespace Uninvited.Editor
             { searchStartupErrors++; return; }
             failed = true;
         }
+        static PointerEventData Pointer(int id, Vector2 position) => new PointerEventData(EventSystem.current) { pointerId = id, position = position, button = PointerEventData.InputButton.Left };
+        static Vector2 StickPoint(Vector2 offset)
+        {
+            var rect = (RectTransform)hud.Joystick.transform;
+            return RectTransformUtility.WorldToScreenPoint(null, rect.TransformPoint(offset * rect.rect.width * .33f));
+        }
+        static void VerifyPointerControls()
+        {
+            Canvas.ForceUpdateCanvases();
+            var controls = bootstrap.GetComponent<GuardianInput>();
+            var joystick = hud.Joystick;
+            var canvas = hud.GetComponent<Canvas>();
+            var originalScale = canvas.scaleFactor;
+            foreach (var scale in new[] { .75f, 1f, 1.6f })
+            {
+                canvas.scaleFactor = scale;
+                Canvas.ForceUpdateCanvases();
+                var owner = Pointer(11, StickPoint(new Vector2(.5f, 0)));
+                joystick.OnPointerDown(owner);
+                Check((joystick.Direction - new Vector2(.5f, 0)).sqrMagnitude < .001f && !owner.useDragThreshold, "joystick uses local coordinates and starts without drag threshold at scale " + scale);
+                var other = Pointer(12, StickPoint(Vector2.left));
+                joystick.OnPointerDown(other); joystick.OnDrag(other); joystick.OnPointerUp(other);
+                Check((joystick.Direction - new Vector2(.5f, 0)).sqrMagnitude < .001f, "second pointer cannot steal, drag or release joystick");
+                owner.position = StickPoint(Vector2.up * 4);
+                joystick.OnDrag(owner);
+                Check((joystick.Direction - Vector2.up).sqrMagnitude < .001f, "joystick direction remains normalized outside its radius");
+                controls.TrySelect(StickPoint(Vector2.zero));
+                Check(!hud.ModalOpen && hud.BlocksBoardInput(StickPoint(Vector2.zero)), "current press on joystick is blocked from board without cached pointer state");
+                joystick.OnPointerUp(owner);
+                Check(joystick.Direction == Vector2.zero && joystick.Knob.anchoredPosition == Vector2.zero, "owning pointer release recenters joystick");
+            }
+            canvas.scaleFactor = originalScale;
+            Canvas.ForceUpdateCanvases();
+            var start = Array.Find(UnityEngine.Object.FindObjectsByType<Button>(FindObjectsSortMode.None), button => button.name == "Start wave");
+            var startPoint = RectTransformUtility.WorldToScreenPoint(null, start.transform.position);
+            controls.TrySelect(startPoint);
+            Check(hud.BlocksBoardInput(startPoint) && !hud.ModalOpen, "start button press cannot select board");
+            var world = UnityEngine.Object.FindFirstObjectByType<GameWorldView>();
+            var sitePoint = world.Camera.WorldToScreenPoint(bootstrap.Session.Config.buildSites[2]);
+            Check(!hud.BlocksBoardInput(sitePoint), "construction slot is not blocked by controls");
+            joystick.OnPointerDown(Pointer(11, StickPoint(Vector2.right)));
+            controls.TrySelect(sitePoint);
+            Check(hud.ModalOpen && joystick.Direction == Vector2.zero, "board selection opens modal and cancels held movement");
+            controls.TrySelect(world.Camera.WorldToScreenPoint(bootstrap.Session.Config.buildSites[3]));
+            Check(GameObject.Find("Dialog").GetComponentInChildren<Text>().text.StartsWith("Slot 3"), "second board press cannot replace open modal");
+            hud.CloseDialog();
+            joystick.OnDrag(Pointer(11, StickPoint(Vector2.right)));
+            Check(joystick.Direction == Vector2.zero, "cleared pointer cannot resume movement without a new press");
+            joystick.OnPointerDown(Pointer(13, StickPoint(Vector2.right)));
+            joystick.enabled = false;
+            Check(joystick.Direction == Vector2.zero && joystick.Knob.anchoredPosition == Vector2.zero, "disabled joystick releases its pointer");
+            joystick.enabled = true;
+        }
         static void Tick()
         {
             try
@@ -87,26 +140,30 @@ namespace Uninvited.Editor
                         Check(Resources.Load<Material>("UninvitedPlaceholder")?.shader.name == "Sprites/Default", "visible sprite shader loads rather than stencil mask shader");
                         foreach (var renderer in UnityEngine.Object.FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None))
                             Check(renderer.transform.lossyScale.z > 0 && renderer.sprite.vertices.Length >= 3 && renderer.sharedMaterial.shader.name == "Sprites/Default", "sprite has drawable geometry and non-singular transform: " + renderer.name);
-                        Click("Abrir la fiesta");
+                        Click("Open the party");
                         break;
                     case 1:
                         Check(bootstrap.Session.Phase == GamePhase.Preparation && !hud.ModalOpen, "UI enters preparation");
-                        hud.OpenSite(2); Click("Elegir Calabaza"); Click("Confirmar compra · 50");
+                        VerifyPointerControls();
+                        hud.OpenSite(2); Click("Choose Pumpkin"); Click("Confirm purchase · 50");
                         Check(bootstrap.Session.Economy.Money == 50 && bootstrap.Session.Sites[2] != null && !hud.ModalOpen, "purchase UI debits and closes");
-                        hud.OpenSite(3); Click("Elegir Calabaza"); Click("Confirmar compra · 50");
+                        hud.OpenSite(3); Click("Choose Pumpkin"); Click("Confirm purchase · 50");
                         Check(bootstrap.Session.Economy.Money == 0, "second purchase UI");
-                        Click("Iniciar oleada");
+                        Click("Start wave");
                         break;
                     case 2:
                         Check(bootstrap.Session.Phase == GamePhase.Wave && bootstrap.Session.Enemies.Count > 0, "actual scene spawns enemies");
-                        Click("Pausa");
+                        hud.Joystick.OnPointerDown(Pointer(14, StickPoint(Vector2.right)));
+                        Check(hud.Joystick.Direction.x > .9f, "joystick held before pause");
+                        Click("Pause");
+                        Check(hud.Joystick.Direction == Vector2.zero, "pause cancels held joystick");
                         pausedPosition = bootstrap.Session.GuardianPosition;
                         pausedSeconds = bootstrap.Session.CombatSeconds;
                         break;
                     case 3:
                         Check(bootstrap.Session.Phase == GamePhase.Paused && Time.timeScale == 0 && bootstrap.Session.GuardianPosition == pausedPosition && bootstrap.Session.CombatSeconds == pausedSeconds, "pause freezes scene");
                         Check(hud.ModalOpen, "pause menu visible");
-                        Click("Reanudar");
+                        Click("Resume");
                         break;
                     case 4:
                         Check(bootstrap.Session.Phase == GamePhase.Wave && Time.timeScale == 1 && bootstrap.Session.CombatSeconds > pausedSeconds, "resume advances scene");
@@ -114,7 +171,7 @@ namespace Uninvited.Editor
                         break;
                     case 5:
                         Check(bootstrap.Session.Phase == GamePhase.Paused && hud.ModalOpen, "browser focus-loss handler pauses explicitly");
-                        Click("Reiniciar partida");
+                        Click("Restart game");
                         break;
                     case 6:
                         Check(bootstrap.Session.Phase == GamePhase.Preparation && bootstrap.Session.Enemies.Count == 0 && bootstrap.Session.Economy.Money == 100 && bootstrap.Session.Sites[2] == null && Time.timeScale == 1, "UI restart cleans session and time");
@@ -146,7 +203,7 @@ namespace Uninvited.Editor
             EditorApplication.update -= Tick;
             Application.logMessageReceived -= OnLog;
             RestoreOptions();
-            File.WriteAllText("Documentation/RuntimeVerification.md", $"# Unity runtime verification\n\nUnity {Application.unityVersion}, batch play mode. {checks} checks passed.\n\nActual scene initialization, material/shader loading, menu, purchase buttons, spawning, pause/resume, browser focus-loss handler, restart cleanup and time restoration were exercised. No gameplay errors were logged.\n\nEditor-only SearchInit.IndexationOnStartup exceptions recorded separately: {searchStartupErrors}. This Unity Search indexing exception is a known limitation of this verification environment, not counted as a passing scene check.\n\nPhysical keyboard/mouse, multitouch and real browser/device compatibility require separate checks.\n");
+            File.WriteAllText("Documentation/RuntimeVerification.md", $"# Unity runtime verification\n\nUnity {Application.unityVersion}, batch play mode. {checks} checks passed.\n\nActual scene initialization, material/shader loading, English menu and purchase buttons, spawning, pause/resume, browser focus-loss handler, restart cleanup and time restoration were exercised. No gameplay errors were logged.\n\nAdditional pointer-event checks covered local joystick coordinates at canvas scales 0.75, 1 and 1.6; second-pointer ownership; normalized drag; release, disable, modal and pause cancellation; and UI raycasts at the current press position without relying on cached pointer state. These events were constructed in Play Mode, not sent by a real touchscreen.\n\nEditor-only SearchInit.IndexationOnStartup exceptions recorded separately: {searchStartupErrors}. This Unity Search indexing exception is a known limitation of this verification environment, not counted as a passing scene check.\n\nPhysical mouse/touch, simultaneous multitouch and real mobile browser/device compatibility require separate checks. See BrowserVerification.md for desktop Chrome and responsive emulation checks.\n");
             Debug.Log("UNINVITED: " + checks + " runtime scene checks passed.");
             EditorApplication.Exit(0);
         }

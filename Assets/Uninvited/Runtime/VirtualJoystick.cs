@@ -12,8 +12,9 @@ namespace Uninvited
         void Awake() => rect = (RectTransform)transform;
         public void OnPointerDown(PointerEventData data)
         {
-            if (pointer != int.MinValue) return;
+            if (pointer != int.MinValue || data.button != PointerEventData.InputButton.Left) return;
             pointer = data.pointerId;
+            data.useDragThreshold = false;
             OnDrag(data);
         }
         public void OnDrag(PointerEventData data)
