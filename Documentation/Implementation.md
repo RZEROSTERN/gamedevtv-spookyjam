@@ -41,7 +41,7 @@ Preparation has no time limit. Construction and upgrades are blocked during comb
 
 ## Mobile input and layout
 
-The joystick belongs to the pointer that pressed it. Another pointer cannot drag or release it. Release, disable, opening a modal, pause, and viewport changes clear its direction and recenter the knob. A new press is required after cancellation. The joystick converts screen coordinates into its own RectTransform coordinates and does not wait for a drag threshold.
+The joystick belongs to the pointer that pressed it. Another pointer cannot drag or release it. Release, disable, opening a modal, pause, and viewport changes clear its direction and recenter the knob. A new press is required after cancellation. The joystick converts screen coordinates into its own RectTransform coordinates, subtracts the rectangle's visible center to account for its bottom-left pivot, and does not wait for a drag threshold.
 
 Board selection raycasts UI at the current press position using a reused pointer event and result list. It does not depend on cached pointer-over-UI state from the previous frame. A press on the joystick, header, footer, or dialog cannot select a slot underneath; once one board touch opens a modal, later touches in the same frame cannot replace it.
 
@@ -102,9 +102,13 @@ python3 Tools/compile-check.py
 
 For simulation within Unity, use **Uninvited → Verify gameplay rules**. For scene checks, run the editor with `-batchmode -nographics -executeMethod Uninvited.Editor.RuntimeVerification.Run`, a project path, and a log path, **without `-quit`**. The verifier exits after completing its checks and restores Play Mode settings. The optional .NET 8 simulation tool in `Tools/Simulation` also needs the local Unity installation; it uses no downloaded NuGet packages and writes its own simulation report.
 
-Pending: a complete manual five-wave browser victory, physical mouse usability, real-device touch and simultaneous multitouch, mobile safe areas/browser bars, landscape usability, performance, and other browser/device combinations. Reported automation limitations remain visible in the browser report.
+Chrome on a connected Pixel 10 running Android 16 was tested with ADB-generated touch events, including cardinal joystick directions, purchases, upgrades, rotation, background pause, restart, and a complete five-wave victory with 8 reserves remaining. This hardware run exposed and verified the fix for a joystick origin error missed by earlier constructed events. See the browser report for the exact build and scope.
+
+Pending: manual finger and physical mouse usability, simultaneous physical multitouch, browser-bar expansion/collapse, other safe-area shapes, human session timing, sustained performance profiling, and other browser/device combinations. Reported automation limitations remain visible in the browser report.
 
 ## References
+
+Joystick coordinate conversion and pivot semantics follow Unity's documentation for [ScreenPointToLocalPointInRectangle](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/RectTransformUtility.ScreenPointToLocalPointInRectangle.html) and [RectTransform.pivot](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/RectTransform-pivot.html). Real-device observation, rather than a community article, identified the specific offset bug.
 
 [The ScriptableObject Trap](https://dev.to/gamedevnotes/the-scriptableobject-trap-why-your-game-data-wont-reset-after-you-quit-play-mode-5f6e), by [GameDevNotes](https://dev.to/gamedevnotes), informed the separation of shared templates and mutable session state.
 

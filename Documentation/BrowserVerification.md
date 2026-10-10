@@ -1,5 +1,49 @@
 # Web verification in Chrome
 
+## Pixel 10 hardware: October 10, 2026
+
+Connected **Google Pixel 10**, **Android 16**, **Chrome 154.0.8037.126**. Unity 6000.3.5f2 IL2CPP Web build: **17,232,614 bytes**. The browser ran on the physical phone; taps and drags were injected with Android SDK ADB over USB. These are real-device single-pointer checks, not finger usability or simultaneous physical multitouch tests.
+
+The Mac served `Builds/Web` locally. `adb reverse tcp:8081 tcp:8081` made `http://127.0.0.1:8081/` available on the phone without publishing the game. A fresh port was used for the corrected build after the previous browser session still exhibited the old behavior; every build asset returned HTTP 200 on the fresh origin. The served WASM SHA-256 matched the compiled artifact: `c9ed5669441ff4b1353004b783d6f8fbb4e4e630e34ff8c4ece5bd4ed0d26eb2`.
+
+The first hardware run reproduced a joystick error: a left drag moved the guardian up and right. `ScreenPointToLocalPointInRectangle` returns pivot-relative coordinates; the HUD uses a bottom-left pivot, so those coordinates must be offset by `rect.rect.center`. Earlier constructed pointer tests used the pivot as their test origin and missed the visible-center problem. The regression tests now originate at the visible center and check neutral input and all four cardinal directions at three canvas scales. **102 Play Mode checks passed**, and the corrected Web build was retested on the phone.
+
+| Check on corrected build | Observed result |
+| --- | --- |
+| English menu and portrait layout, 1080 × 2424 device screenshot | Text, six slots, base, pause, joystick and preparation controls visible below Chrome's toolbar and above Android's gesture bar |
+| Left/right/up/down drags, then release | Guardian moves in the corresponding direction; joystick knob returns to center |
+| Approximately centered hold | No substantial guardian movement; exact neutral coordinates are covered separately by Play Mode checks |
+| Slot 3 → Pumpkin → confirm | Resources change from 100 to 50 once; one defense appears at slot 3 |
+| Start wave and rotate during combat | Enemies continue along the path; whole board, pause and joystick remain visible; landscape rotation hint remains present |
+| Background Chrome and return | Explicit pause dialog appears and remains until Resume is pressed |
+| Resume after first-wave completion | Preparation for wave 2, 13 reserves and 97 resources in the one-defense smoke run |
+| Restart from pause | Preparation for wave 1, 20 reserves and 100 resources; purchased defense disappears and guardian returns to its initial position |
+| Landscape → portrait | Full portrait board and controls return without reload |
+
+Orientation was changed through Android's display rotation command, not by physically turning the phone. The original automatic-rotation setting was restored afterward. Chrome's address bar stayed visible in this run; dynamic bar collapse/expansion and other cutout shapes remain pending. After rotation/backgrounding while paused, the board backdrop could be black until Resume; the pause dialog remained usable and resuming restored rendering.
+
+No frame-rate, memory or thermal benchmark was recorded. A successful hardware run does not certify all Android browsers, iOS, or manual finger ergonomics.
+
+Hardware screenshots, cropped to the game area: [portrait preparation](Screenshots/pixel10-portrait.png) and [landscape combat](Screenshots/pixel10-landscape.png).
+
+### Full-match hardware run
+
+A separate match started from the reset state. The guardian was moved with the corrected joystick to the central bend and remained there during combat. All purchases and upgrades used the visible UI; no debug methods, balance changes or time acceleration were used.
+
+| Before wave | Preparation actions | Reserves / resources after preparation |
+| --- | --- | --- |
+| 1 | Build Pumpkins at slots 3 and 4; move guardian to the central bend | 20 / 0 |
+| 2 | Build Speaker at slot 5 | 20 / 16 |
+| 3 | Build Web at slot 1; upgrade Pumpkin at slot 3; build Pumpkin at slot 6 | 20 / 0 |
+| 4 | Upgrade Pumpkins at slots 4 and 6 | 11 / 25 |
+| 5 | Upgrade Web and Speaker; build and upgrade Pumpkin at slot 2 | 8 / 34 |
+
+**Result: victory, 5/5 waves, 8 reserves remaining, 370 resources, 158 seconds of combat reported by the game.** The same build ran the entire match in Chrome on the phone. The guardian stayed at the central bend after preparation; strategy and preparation time differ from the simulation run. The target 4–6 minute human session duration was not timed in this automated run.
+
+Pressing **Play again** after victory restored preparation for wave 1 with 20 reserves, 100 resources, six empty slots and the guardian at its initial position.
+
+![Pixel 10 five-wave victory](Screenshots/pixel10-victory.png)
+
 ## English UI and mobile layout: October 10, 2026
 
 Unity 6000.3.5f2 IL2CPP Web build: **17,232,559 bytes**. Served locally over HTTP from `Builds/Web` and inspected in desktop Chrome on the development Mac. Mobile cases below use Chrome DevTools emulation, not physical phones or Safari.
@@ -49,4 +93,4 @@ These samples cover restart and board selection, not every button at every durat
 
 ## Pending checks
 
-A complete manual five-wave browser victory, physical mouse usability, real-device joystick/touch, simultaneous physical multitouch, mobile browser bars and safe areas, real landscape usability, phone performance, and other browsers. Five-wave victory is verified in simulation. Responsive emulation and constructed pointer events are documented separately and do not establish physical-device compatibility.
+Physical mouse and finger usability, simultaneous physical multitouch, dynamic mobile browser bars, other safe-area/cutout shapes, human session timing, sustained phone performance, and other browsers/devices. The complete five-wave Web victory was observed on Pixel 10; that hardware result remains limited to the tested Chrome version and ADB input. Responsive emulation and constructed pointer events remain separate from that hardware run.
