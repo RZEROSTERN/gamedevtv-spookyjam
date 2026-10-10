@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <title>Colados / Uninvited</title>
+  <link rel="icon" href="data:,">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #11151f; color: #ffe3a6; font-family: sans-serif; }
+    #game { position: fixed; inset: 0; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+    canvas { width: 100%; height: 100%; display: block; touch-action: none; outline: none; }
+    #loading { position: fixed; inset: 0; display: grid; place-content: center; padding: 24px; text-align: center; background: #11151f; }
+    progress { width: 240px; max-width: 80vw; height: 16px; margin: 20px auto; accent-color: #69dab2; }
+  </style>
+</head>
+<body>
+  <div id="game"><canvas id="unity-canvas" tabindex="0" aria-label="Colados: juego de defensa por oleadas"></canvas></div>
+  <div id="loading"><h1>COLADOS</h1><p>Preparando la fiesta…</p><progress id="progress" max="1" value="0"></progress><p id="error" role="alert"></p></div>
+  <script src="Build/{{{ LOADER_FILENAME }}}"></script>
+  <script>
+    const canvas = document.getElementById('unity-canvas');
+    let game;
+    createUnityInstance(canvas, {
+      dataUrl: 'Build/{{{ DATA_FILENAME }}}',
+      frameworkUrl: 'Build/{{{ FRAMEWORK_FILENAME }}}',
+      codeUrl: 'Build/{{{ CODE_FILENAME }}}',
+      streamingAssetsUrl: 'StreamingAssets',
+      companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
+      productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
+      productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}},
+      matchWebGLToCanvasSize: true,
+      devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2)
+    }, value => document.getElementById('progress').value = value).then(instance => {
+      game = instance;
+      document.getElementById('loading').style.display = 'none';
+      canvas.focus();
+    }).catch(error => { document.getElementById('error').textContent = 'No se pudo abrir la fiesta: ' + error; });
+    function pauseGame() { if (game) game.SendMessage('Uninvited Game', 'HandleBrowserFocusLost'); }
+    window.addEventListener('blur', pauseGame);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) pauseGame(); });
+    canvas.addEventListener('contextmenu', event => event.preventDefault());
+  </script>
+</body>
+</html>

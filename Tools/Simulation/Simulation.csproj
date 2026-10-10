@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <DefineConstants>UNINVITED_STANDALONE</DefineConstants>
+    <UnityPath Condition="'$(UnityPath)' == ''">/Applications/6000.3.5f2/Unity.app</UnityPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(UnityPath)/Contents/Resources/Scripting/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(UnityPath)/Contents/Resources/Scripting/Managed/UnityEngine/UnityEngine.dll</HintPath>
+    </Reference>
+    <Compile Include="../../Assets/Uninvited/Runtime/GameConfig.cs" Link="GameConfig.cs" />
+    <Compile Include="../../Assets/Uninvited/Runtime/Actors.cs" Link="Actors.cs" />
+    <Compile Include="../../Assets/Uninvited/Runtime/Economy.cs" Link="Economy.cs" />
+    <Compile Include="../../Assets/Uninvited/Runtime/WaveDirector.cs" Link="WaveDirector.cs" />
+    <Compile Include="../../Assets/Uninvited/Runtime/CombatSystem.cs" Link="CombatSystem.cs" />
+    <Compile Include="../../Assets/Uninvited/Runtime/GameSession.cs" Link="GameSession.cs" />
+    <Compile Include="../../Assets/Uninvited/Editor/GameplayVerification.cs" Link="GameplayVerification.cs" />
+  </ItemGroup>
+</Project>

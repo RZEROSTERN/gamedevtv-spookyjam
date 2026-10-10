@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36643e122a135a0fb395cc9eed4afbd5, type: 3}
+  m_Name: GameBalance
+  m_EditorClassIdentifier:
+  initialReserves: 20
+  initialMoney: 100
+  guardianSpeed: 3.6
+  guardianRange: 2
+  guardianCooldown: 0.65
+  guardianDamage: 4
+  enemies:
+  - kind: 0
+    resistance: 18
+    speed: 0.8
+    reserveDamage: 1
+    reward: 7
+  - kind: 1
+    resistance: 10
+    speed: 1.35
+    reserveDamage: 1
+    reward: 6
+  - kind: 2
+    resistance: 60
+    speed: 0.55
+    reserveDamage: 3
+    reward: 18
+  defenses:
+  - kind: 0
+    title: "Calabaza"
+    description: "Ataca al colado m\u00E1s cercano."
+    cost: 50
+    upgradeCost: 55
+    range: 2.65
+    upgradedRange: 3
+    damage: 6
+    upgradedDamage: 10
+    cooldown: 0.8
+    slowMultiplier: 1
+    upgradedSlowMultiplier: 1
+  - kind: 1
+    title: "Telara\u00F1a"
+    description: "Ralentiza a todos en su zona. Se aplica la m\u00E1s fuerte."
+    cost: 60
+    upgradeCost: 50
+    range: 2.3
+    upgradedRange: 2.8
+    damage: 0
+    upgradedDamage: 0
+    cooldown: 1
+    slowMultiplier: 0.65
+    upgradedSlowMultiplier: 0.4
+  - kind: 2
+    title: "Bocina"
+    description: "Pulso de da\u00F1o a todos en su zona."
+    cost: 80
+    upgradeCost: 70
+    range: 2.4
+    upgradedRange: 2.7
+    damage: 9
+    upgradedDamage: 15
+    cooldown: 1.8
+    slowMultiplier: 1
+    upgradedSlowMultiplier: 1
+  waves:
+  - title: "Primeros colados"
+    spawnInterval: 1.5
+    bonus: 40
+    sequence: 0000000000000000000000000000000000000000000000000000000000000000
+  - title: "Prisa por entrar"
+    spawnInterval: 1.4
+    bonus: 55
+    sequence: 0000000000000000010000000000000000000000000000000100000000000000000000000000000001000000000000000000000001000000
+  - title: "Invitados enormes"
+    spawnInterval: 1.5
+    bonus: 65
+    sequence: 02000000000000000000000000000000000000000200000000000000000000000000000002000000000000000000000000000000
+  - title: "La fila crece"
+    spawnInterval: 1.25
+    bonus: 80
+    sequence: 000000000100000000000000010000000200000000000000010000000000000001000000020000000000000000000000010000000000000001000000020000000000000000000000010000000000000001000000
+  - title: "\u00DAltimo intento"
+    spawnInterval: 1.2
+    bonus: 100
+    sequence: 020000000100000001000000000000000100000000000000020000000000000000000000010000000000000001000000020000000000000000000000010000000000000001000000020000000000000000000000000000000100000000000000020000000000000000000000
+  path:
+  - {x: 0, y: 5.5}
+  - {x: -0.9, y: 3.8}
+  - {x: 0.8, y: 2.1}
+  - {x: 1, y: 0}
+  - {x: -0.8, y: -2}
+  - {x: 0, y: -4.9}
+  buildSites:
+  - {x: -3, y: 3.5}
+  - {x: 2.9, y: 3.2}
+  - {x: -2.8, y: 0.5}
+  - {x: 3.2, y: 0}
+  - {x: -3, y: -2.8}
+  - {x: 2.7, y: -3}
