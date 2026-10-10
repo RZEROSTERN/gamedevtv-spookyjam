@@ -6,7 +6,7 @@ Proyecto nuevo para Unity **6000.3.5f2**, versión encontrada en este equipo. No
 
 Renderizado integrado, uGUI 2.0.0 y el sistema de entrada integrado de Unity. No se mezclan sistemas de entrada. No se requieren imágenes descargadas, fuentes externas, cuentas, backend ni servicios para jugar. Los únicos paquetes son uGUI y módulos incluidos con el editor.
 
-La escena incluida contiene un `GameBootstrap` con referencia al balance. Este construye tablero, cámara, actores e interfaz localmente al iniciar. Escena, balance y metadatos se escribieron con la herramienta de respaldo al estar bloqueado el editor; su importación en Unity aún está pendiente. El menú **Uninvited → Generate game scene** genera la escena mediante las APIs de Unity, conserva un balance existente y reemplaza la escena generada. No debe usarse sobre una escena con cambios manuales que quieras conservar.
+La escena incluida contiene un `GameBootstrap` con referencia al balance. Este construye tablero, cámara, actores e interfaz localmente al iniciar. El proyecto se importó y la escena se guardó mediante las APIs de Unity. El menú **Uninvited → Generate game scene** conserva un balance existente y reemplaza la escena generada. No debe usarse sobre una escena con cambios manuales que quieras conservar.
 
 La representación utiliza sprites de formas generadas, líneas, una fuente integrada y un material local en Resources. El camino usa waypoints; no se utiliza física ni navegación. Ningún actor bloquea el movimiento de otro.
 
@@ -24,7 +24,7 @@ La representación utiliza sprites de formas generadas, líneas, una fuente inte
 | `GameWorldView`, `Geometry` | Presentación del tablero y feedback de combate |
 | `GameHud` | HUD por eventos, compras con confirmación, menús y adaptación al área segura |
 | `GameBootstrap` | Arranque, tiempo, pérdida de foco y mejor resultado local |
-| `ProjectSetup`, `GameplayVerification` | Generación, build y comprobaciones deterministas |
+| `ProjectSetup`, `GameplayVerification`, `RuntimeVerification` | Generación, build, simulación y comprobaciones de escena |
 
 Los ScriptableObjects son plantillas de lectura durante la partida. El dinero, resistencia restante, mejoras y temporizadores se guardan en objetos de sesión; reiniciar no modifica el asset de balance.
 
@@ -78,10 +78,14 @@ La lógica no conoce sprites. Sustituye la creación de formas en `GameWorldView
 ## Comprobaciones y límites actuales
 
 - Rosetta 2 se instaló con autorización: era un requisito de arranque del editor en este Mac.
-- Unity pudo arrancar en batch, pero se detuvo por falta de licencia activa. No llegó a importar o ejecutar la escena ni a producir una build Web. Los archivos de escena y balance incluidos se generaron mediante la herramienta de respaldo usando los datos predeterminados verificados.
+- La licencia se activó y Unity importó el proyecto, compiló los scripts y regeneró la escena correctamente.
 - Los scripts completos, incluida la interfaz y herramientas de editor, compilaron con Roslyn contra los ensamblados reales instalados de Unity 6000.3.5f2 y uGUI.
-- La simulación pasó 44 comprobaciones ejecutadas en .NET 8 contra el código de juego y `Vector2`/`Mathf` de Unity, sin ejecutar el motor nativo. El informe está en `GameplayVerification.md`.
-- Esta ejecución independiente no verifica renderizado, serialización de Unity, eventos de UI, touch, foco, navegador ni build.
+- La simulación pasó 44 comprobaciones tanto en .NET 8 como dentro de Unity. El informe más reciente está en `GameplayVerification.md`.
+- La escena pasó 64 comprobaciones en Play Mode: arranque, material y geometría de sprites, menú, botones de compra, aparición de enemigos, pausa, reanudación, manejador de pérdida de foco, reinicio y limpieza de objetos. El informe está en `RuntimeVerification.md`.
+- Se generó una build Web mediante IL2CPP y se abrió en Chrome desde localhost. La primera inspección detectó un shader de máscara incorrecto para los placeholders; se corrigió a `Sprites/Default` y se añadieron comprobaciones para detectarlo.
+- En Chrome se comprobó movimiento con teclado, selección y confirmación de una compra, pérdida de foco con reanudación explícita y una partida hasta derrota seguida de reinicio. La compra descontó 50 recursos una sola vez. El informe y los límites de automatización están en `BrowserVerification.md`.
+- El editor 6000.3.5f2 registra una excepción de su indexador `UnityEditor.Search.SearchInit.IndexationOnStartup` al arrancar estas pruebas batch. Se informa por separado; no se cuenta como prueba aprobada ni como error de gameplay. No hubo errores del juego en las comprobaciones de escena.
+- Las comprobaciones independientes de .NET/Roslyn verifican lógica y compilación; las comprobaciones de escena y navegador se ejecutaron por separado.
 
 Para repetir las comprobaciones sin iniciar el editor:
 
@@ -90,11 +94,11 @@ python3 Tools/compile-check.py
 dotnet run --project Tools/Simulation/Simulation.csproj
 ```
 
-El segundo comando exige .NET 8 y la instalación local de Unity. Puedes cambiar la ruta con `-p:UnityPath=/ruta/Unity.app`. No descarga paquetes NuGet. Dentro del editor, usa **Uninvited → Verify gameplay rules** para ejecutar las mismas comprobaciones en Unity.
+El segundo comando exige .NET 8 y la instalación local de Unity. Puedes cambiar la ruta con `-p:UnityPath=/ruta/Unity.app`. No descarga paquetes NuGet. Dentro del editor, usa **Uninvited → Verify gameplay rules** para ejecutar las mismas comprobaciones en Unity. La prueba de escena usa `-executeMethod Uninvited.Editor.RuntimeVerification.Run` sin `-quit`; termina por sí misma y restaura las opciones de Play Mode. Invoca callbacks de botones; no sustituye las pruebas de mouse y touch.
 
-Pruebas pendientes: importar y ejecutar sin errores, partida completa en navegador, reinicio visual sin objetos duplicados, mouse y teclado, multitouch simultáneo, controles sin interferencia, orientación horizontal, zonas seguras, pérdida de foco con reanudación explícita y rendimiento en dispositivos reales.
+Pruebas pendientes: victoria manual de cinco oleadas en navegador, pulsaciones breves y comodidad de uso, joystick táctil y multitouch simultáneo, controles sin interferencia, orientación móvil horizontal, zonas seguras y rendimiento en dispositivos reales. La partida hasta derrota, reinicio y pérdida de foco se comprobaron en Chrome de escritorio; deben repetirse en otros navegadores y dispositivos concretos.
 
-No se abrió un pull request: no hay remoto configurado y falta completar la validación del editor y Web. La revisión debe partir de un PR funcional, con estas limitaciones visibles.
+No se abrió un pull request: no hay remoto configurado. La revisión debe partir de un PR funcional, con estas limitaciones visibles.
 
 ## Referencia de arquitectura
 

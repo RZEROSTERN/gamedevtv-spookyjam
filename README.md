@@ -11,6 +11,7 @@ Abre este proyecto en Unity, ejecuta **Uninvited → Generate game scene**, abre
 
 [Guía de implementación, balance, exportación y pruebas](Documentation/Implementation.md).
 
-**Estado:** C# comprobado contra los ensamblados instalados; 44 verificaciones de
-simulación aprobadas. Importación, escena y build Web pendientes de activar la
-licencia de Unity en este equipo. No se declara compatibilidad probada en dispositivos.
+**Estado:** importado y compilado en Unity 6000.3.5f2; 44 verificaciones de simulación
+y 64 comprobaciones de escena en Play Mode aprobadas. Build Web en `Builds/Web`,
+probada en Chrome hasta derrota y reinicio, con movimiento y compra.
+Consulta la guía para conocer las pruebas pendientes y limitaciones del entorno.

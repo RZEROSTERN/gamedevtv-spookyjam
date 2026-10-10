@@ -1,5 +1,5 @@
 # Gameplay verification
-Execution host: .NET 8, using Unity 6000.3.5f2 managed assemblies. Unity editor, native engine, rendering and devices were NOT executed.
+Execution host: Unity 6000.3.5f2. Deterministic simulation; not device testing.
 
 ## Full matches
 - Defense strategy, wave 1: 20 reserves, 0 resources.
@@ -15,4 +15,4 @@ Execution host: .NET 8, using Unity 6000.3.5f2 managed assemblies. Unity editor,
 
 Assertions passed: 44.
 
-Pending: real mouse/keyboard and multitouch, browser full match, mobile landscape and safe areas, focus-loss, native devices.
+This report covers simulation only. See Implementation.md and the separate runtime/browser reports for UI, rendering and device verification.

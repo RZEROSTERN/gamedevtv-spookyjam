@@ -60,11 +60,11 @@ namespace Uninvited
             Art.Line(transform, "Waypoint path", game.Config.path, 1.1f, new Color(.29f, .32f, .38f), -8);
             Art.Line(transform, "Path guide", game.Config.path, .045f, new Color(.48f, .5f, .54f), -7);
             Art.Draw(transform, "Entrance", Shape.Ring, game.Config.path[0], new Vector2(1.2f, 1.2f), Cream, -6);
-            WorldText("COLADOS", new Vector2(0, 6), .08f, 40, Cream);
+            WorldText("COLADOS", new Vector2(0, 6), .12f, 40, Cream);
             baseTable = Art.Draw(transform, "Reserve table", Shape.Square, new Vector2(0, -5.15f), new Vector2(2.9f, .65f), TableColor, -5);
             for (var i = 0; i < 7; i++)
                 Art.Draw(transform, "Candy", i % 2 == 0 ? Shape.Disc : Shape.Triangle, new Vector2(-1.05f + .35f * i, -5.1f), Vector2.one * .22f, i % 2 == 0 ? Orange : Purple, -4);
-            WorldText("Fiesta privada — Solo con invitación", new Vector2(0, -5.8f), .035f, 34, Cream);
+            WorldText("Fiesta privada — Solo con invitación", new Vector2(0, -5.8f), .09f, 34, Cream);
             siteBodies = new SpriteRenderer[game.Sites.Length];
             siteMarks = new SpriteRenderer[game.Sites.Length];
             siteStars = new SpriteRenderer[game.Sites.Length];
@@ -76,7 +76,7 @@ namespace Uninvited
                 siteMarks[i] = Art.Draw(transform, "Symbol " + (i + 1), Shape.Square, p, new Vector2(.28f, .06f), Cream, 2);
                 Art.Draw(siteBodies[i].transform, "Plus", Shape.Square, Vector2.zero, new Vector2(.09f, .4f), Cream, 2);
                 siteStars[i] = Art.Draw(transform, "Upgrade mark", Shape.Triangle, p + new Vector2(.35f, .35f), Vector2.one * .2f, Color.white, 3);
-                WorldText((i + 1).ToString(), p + new Vector2(0, -.65f), .04f, 30, Cream);
+                WorldText((i + 1).ToString(), p + new Vector2(0, -.65f), .1f, 30, Cream);
             }
             guardianRange = Art.Draw(transform, "Guardian range", Shape.Ring, game.GuardianPosition, Vector2.one * game.Config.guardianRange * 2, new Color(.3f, .7f, 1, .1f), -3);
             selectedRange = Art.Draw(transform, "Selected defense range", Shape.Ring, Vector2.zero, Vector2.one, new Color(1, 1, 1, .15f), -3);
@@ -105,7 +105,7 @@ namespace Uninvited
             text.text = value;
             text.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             text.fontSize = size;
-            text.characterSize = scale * 10;
+            text.characterSize = scale;
             text.anchor = TextAnchor.MiddleCenter;
             text.color = color;
             var renderer = obj.GetComponent<MeshRenderer>();

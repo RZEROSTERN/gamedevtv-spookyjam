@@ -36,9 +36,10 @@ namespace Uninvited
             var obj = new GameObject(name);
             obj.transform.SetParent(parent, false);
             obj.transform.localPosition = position;
-            obj.transform.localScale = scale;
+            obj.transform.localScale = new Vector3(scale.x, scale.y, 1);
             var renderer = obj.AddComponent<SpriteRenderer>();
             renderer.sprite = Sprite(shape);
+            renderer.sharedMaterial = LineMaterial;
             renderer.color = color;
             renderer.sortingOrder = layer;
             return renderer;

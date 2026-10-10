@@ -85,7 +85,7 @@ namespace Uninvited.Editor
                 Check(victory == GamePhase.Victory, "strategy can win all five waves");
                 Check(defeat == GamePhase.Defeat, "guardian alone cannot win");
                 report.AppendLine($"\nAssertions passed: {assertions}.");
-                report.AppendLine("\nPending: real mouse/keyboard and multitouch, browser full match, mobile landscape and safe areas, focus-loss, native devices.");
+                report.AppendLine("\nThis report covers simulation only. See Implementation.md and the separate runtime/browser reports for UI, rendering and device verification.");
                 Directory.CreateDirectory("Documentation");
                 File.WriteAllText("Documentation/GameplayVerification.md", report.ToString());
 #if UNINVITED_STANDALONE
