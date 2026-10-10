@@ -62,7 +62,7 @@ namespace Uninvited.Editor
         static Vector2 StickPoint(Vector2 offset)
         {
             var rect = (RectTransform)hud.Joystick.transform;
-            return RectTransformUtility.WorldToScreenPoint(null, rect.TransformPoint(offset * rect.rect.width * .33f));
+            return RectTransformUtility.WorldToScreenPoint(null, rect.TransformPoint(rect.rect.center + offset * rect.rect.width * .33f));
         }
         static void VerifyPointerControls()
         {
@@ -75,6 +75,16 @@ namespace Uninvited.Editor
             {
                 canvas.scaleFactor = scale;
                 Canvas.ForceUpdateCanvases();
+                var centered = Pointer(11, StickPoint(Vector2.zero));
+                joystick.OnPointerDown(centered);
+                Check(joystick.Direction.sqrMagnitude < .001f && joystick.Knob.anchoredPosition.sqrMagnitude < .001f, "pressing visible joystick center is neutral at scale " + scale);
+                foreach (var direction in new[] { Vector2.left, Vector2.right, Vector2.up, Vector2.down })
+                {
+                    centered.position = StickPoint(direction);
+                    joystick.OnDrag(centered);
+                    Check((joystick.Direction - direction).sqrMagnitude < .001f, "visible joystick cardinal direction " + direction + " at scale " + scale);
+                }
+                joystick.OnPointerUp(centered);
                 var owner = Pointer(11, StickPoint(new Vector2(.5f, 0)));
                 joystick.OnPointerDown(owner);
                 Check((joystick.Direction - new Vector2(.5f, 0)).sqrMagnitude < .001f && !owner.useDragThreshold, "joystick uses local coordinates and starts without drag threshold at scale " + scale);
@@ -203,7 +213,7 @@ namespace Uninvited.Editor
             EditorApplication.update -= Tick;
             Application.logMessageReceived -= OnLog;
             RestoreOptions();
-            File.WriteAllText("Documentation/RuntimeVerification.md", $"# Unity runtime verification\n\nUnity {Application.unityVersion}, batch play mode. {checks} checks passed.\n\nActual scene initialization, material/shader loading, English menu and purchase buttons, spawning, pause/resume, browser focus-loss handler, restart cleanup and time restoration were exercised. No gameplay errors were logged.\n\nAdditional pointer-event checks covered local joystick coordinates at canvas scales 0.75, 1 and 1.6; second-pointer ownership; normalized drag; release, disable, modal and pause cancellation; and UI raycasts at the current press position without relying on cached pointer state. These events were constructed in Play Mode, not sent by a real touchscreen.\n\nEditor-only SearchInit.IndexationOnStartup exceptions recorded separately: {searchStartupErrors}. This Unity Search indexing exception is a known limitation of this verification environment, not counted as a passing scene check.\n\nPhysical mouse/touch, simultaneous multitouch and real mobile browser/device compatibility require separate checks. See BrowserVerification.md for desktop Chrome and responsive emulation checks.\n");
+            File.WriteAllText("Documentation/RuntimeVerification.md", $"# Unity runtime verification\n\nUnity {Application.unityVersion}, batch play mode. {checks} checks passed.\n\nActual scene initialization, material/shader loading, English menu and purchase buttons, spawning, pause/resume, browser focus-loss handler, restart cleanup and time restoration were exercised. No gameplay errors were logged.\n\nAdditional pointer-event checks covered the visible joystick center and all four cardinal directions with the HUD's bottom-left pivot at canvas scales 0.75, 1 and 1.6; second-pointer ownership; normalized drag; release, disable, modal and pause cancellation; and UI raycasts at the current press position without relying on cached pointer state. These events were constructed in Play Mode, not sent by a real touchscreen.\n\nEditor-only SearchInit.IndexationOnStartup exceptions recorded separately: {searchStartupErrors}. This Unity Search indexing exception is a known limitation of this verification environment, not counted as a passing scene check.\n\nSee BrowserVerification.md for separate desktop, emulation and Pixel 10 hardware checks. Simultaneous physical multitouch and other mobile devices remain pending.\n");
             Debug.Log("UNINVITED: " + checks + " runtime scene checks passed.");
             EditorApplication.Exit(0);
         }

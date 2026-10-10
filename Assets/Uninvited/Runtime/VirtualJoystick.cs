@@ -22,7 +22,10 @@ namespace Uninvited
             if (data.pointerId != pointer) return;
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, data.position, data.pressEventCamera, out var local)) return;
             var radius = rect.rect.width * .33f;
-            Direction = Vector2.ClampMagnitude(local / radius, 1);
+            // ScreenPointToLocalPoint uses the RectTransform pivot as its origin.
+            // The HUD positions this rect with a bottom-left pivot; movement
+            // must instead be relative to the visible joystick's center.
+            Direction = Vector2.ClampMagnitude((local - rect.rect.center) / radius, 1);
             Knob.anchoredPosition = Direction * radius;
         }
         public void OnPointerUp(PointerEventData data) { if (data.pointerId == pointer) Clear(); }
