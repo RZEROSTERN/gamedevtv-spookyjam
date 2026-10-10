@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-  <title>Colados / Uninvited</title>
+  <title>Uninvited</title>
   <link rel="icon" href="data:,">
   <style>
     * { box-sizing: border-box; }
@@ -15,11 +15,30 @@
   </style>
 </head>
 <body>
-  <div id="game"><canvas id="unity-canvas" tabindex="0" aria-label="Colados: juego de defensa por oleadas"></canvas></div>
-  <div id="loading"><h1>COLADOS</h1><p>Preparando la fiesta…</p><progress id="progress" max="1" value="0"></progress><p id="error" role="alert"></p></div>
+  <div id="game"><canvas id="unity-canvas" tabindex="0" aria-label="Uninvited: wave defense game"></canvas></div>
+  <div id="loading"><h1>UNINVITED</h1><p>Preparing the party…</p><progress id="progress" max="1" value="0"></progress><p id="error" role="alert"></p></div>
   <script src="Build/{{{ LOADER_FILENAME }}}"></script>
   <script>
     const canvas = document.getElementById('unity-canvas');
+    // Follow the visible viewport when browser bars change size or the device
+    // rotates. Safe-area padding remains inside the game container.
+    function fitViewport() {
+      const viewport = window.visualViewport;
+      for (const id of ['game', 'loading']) {
+        const element = document.getElementById(id);
+        element.style.left = (viewport ? viewport.offsetLeft : 0) + 'px';
+        element.style.top = (viewport ? viewport.offsetTop : 0) + 'px';
+        element.style.width = (viewport ? viewport.width : window.innerWidth) + 'px';
+        element.style.height = (viewport ? viewport.height : window.innerHeight) + 'px';
+        element.style.right = element.style.bottom = 'auto';
+      }
+    }
+    fitViewport();
+    window.addEventListener('resize', fitViewport);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', fitViewport);
+      window.visualViewport.addEventListener('scroll', fitViewport);
+    }
     let game;
     createUnityInstance(canvas, {
       dataUrl: 'Build/{{{ DATA_FILENAME }}}',
@@ -35,7 +54,7 @@
       game = instance;
       document.getElementById('loading').style.display = 'none';
       canvas.focus();
-    }).catch(error => { document.getElementById('error').textContent = 'No se pudo abrir la fiesta: ' + error; });
+    }).catch(error => { document.getElementById('error').textContent = 'Could not open the party: ' + error; });
     function pauseGame() { if (game) game.SendMessage('Uninvited Game', 'HandleBrowserFocusLost'); }
     window.addEventListener('blur', pauseGame);
     document.addEventListener('visibilitychange', () => { if (document.hidden) pauseGame(); });

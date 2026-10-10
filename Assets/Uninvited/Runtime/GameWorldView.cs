@@ -60,11 +60,11 @@ namespace Uninvited
             Art.Line(transform, "Waypoint path", game.Config.path, 1.1f, new Color(.29f, .32f, .38f), -8);
             Art.Line(transform, "Path guide", game.Config.path, .045f, new Color(.48f, .5f, .54f), -7);
             Art.Draw(transform, "Entrance", Shape.Ring, game.Config.path[0], new Vector2(1.2f, 1.2f), Cream, -6);
-            WorldText("COLADOS", new Vector2(0, 6), .12f, 40, Cream);
+            WorldText("UNINVITED", new Vector2(0, 6), .12f, 40, Cream);
             baseTable = Art.Draw(transform, "Reserve table", Shape.Square, new Vector2(0, -5.15f), new Vector2(2.9f, .65f), TableColor, -5);
             for (var i = 0; i < 7; i++)
                 Art.Draw(transform, "Candy", i % 2 == 0 ? Shape.Disc : Shape.Triangle, new Vector2(-1.05f + .35f * i, -5.1f), Vector2.one * .22f, i % 2 == 0 ? Orange : Purple, -4);
-            WorldText("Fiesta privada — Solo con invitación", new Vector2(0, -5.8f), .09f, 34, Cream);
+            WorldText("Private party — Invitation only", new Vector2(0, -5.8f), .09f, 34, Cream);
             siteBodies = new SpriteRenderer[game.Sites.Length];
             siteMarks = new SpriteRenderer[game.Sites.Length];
             siteStars = new SpriteRenderer[game.Sites.Length];

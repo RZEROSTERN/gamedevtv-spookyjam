@@ -35,7 +35,7 @@ namespace Uninvited.Editor
         static void ConfigureProject()
         {
             PlayerSettings.companyName = "Spooky Jam";
-            PlayerSettings.productName = "Colados - Uninvited";
+            PlayerSettings.productName = "Uninvited";
             PlayerSettings.defaultScreenWidth = 540;
             PlayerSettings.defaultScreenHeight = 960;
             PlayerSettings.resizableWindow = true;

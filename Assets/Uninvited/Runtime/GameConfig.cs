@@ -76,17 +76,17 @@ namespace Uninvited
                 new EnemySpec { kind = EnemyKind.Heavy, resistance = 60, speed = .55f, reserveDamage = 3, reward = 18 }
             };
             defenses = new[] {
-                new DefenseSpec { kind = DefenseKind.Pumpkin, title = "Calabaza", description = "Ataca al colado más cercano.", cost = 50, upgradeCost = 55, range = 2.65f, upgradedRange = 3, damage = 6, upgradedDamage = 10, cooldown = .8f },
-                new DefenseSpec { kind = DefenseKind.Web, title = "Telaraña", description = "Ralentiza a todos en su zona. Se aplica la más fuerte.", cost = 60, upgradeCost = 50, range = 2.3f, upgradedRange = 2.8f, cooldown = 1, slowMultiplier = .65f, upgradedSlowMultiplier = .4f },
-                new DefenseSpec { kind = DefenseKind.Speaker, title = "Bocina", description = "Pulso de daño a todos en su zona.", cost = 80, upgradeCost = 70, range = 2.4f, upgradedRange = 2.7f, damage = 9, upgradedDamage = 15, cooldown = 1.8f }
+                new DefenseSpec { kind = DefenseKind.Pumpkin, title = "Pumpkin", description = "Attacks the nearest gatecrasher.", cost = 50, upgradeCost = 55, range = 2.65f, upgradedRange = 3, damage = 6, upgradedDamage = 10, cooldown = .8f },
+                new DefenseSpec { kind = DefenseKind.Web, title = "Web", description = "Slows everyone in its area. Only the strongest slow applies.", cost = 60, upgradeCost = 50, range = 2.3f, upgradedRange = 2.8f, cooldown = 1, slowMultiplier = .65f, upgradedSlowMultiplier = .4f },
+                new DefenseSpec { kind = DefenseKind.Speaker, title = "Speaker", description = "Pulses damage to everyone in its area.", cost = 80, upgradeCost = 70, range = 2.4f, upgradedRange = 2.7f, damage = 9, upgradedDamage = 15, cooldown = 1.8f }
             };
             // Hand-authored interleaving; each wave retains the requested totals.
             waves = new[] {
-                MakeWave("Primeros colados", 1.5f, 40, "CCCCCCCC"),
-                MakeWave("Prisa por entrar", 1.4f, 55, "CCRCCCRCCCRCCR"),
-                MakeWave("Invitados enormes", 1.5f, 65, "HCCCCHCCCHCCC"),
-                MakeWave("La fila crece", 1.25f, 80, "CRCRHCRCRHCCRCRHCCRCR"),
-                MakeWave("Último intento", 1.2f, 100, "HRRCRCHCCRCRHCCRCRHCCCRCHCC")
+                MakeWave("First gatecrashers", 1.5f, 40, "CCCCCCCC"),
+                MakeWave("Rush to enter", 1.4f, 55, "CCRCCCRCCCRCCR"),
+                MakeWave("Big guests", 1.5f, 65, "HCCCCHCCCHCCC"),
+                MakeWave("The line grows", 1.25f, 80, "CRCRHCRCRHCCRCRHCCRCR"),
+                MakeWave("Last attempt", 1.2f, 100, "HRRCRCHCCRCRHCCRCRHCCCRCHCC")
             };
             path = new[] { new Vector2(0, 5.5f), new Vector2(-.9f, 3.8f), new Vector2(.8f, 2.1f), new Vector2(1, 0), new Vector2(-.8f, -2), new Vector2(0, -4.9f) };
             buildSites = new[] { new Vector2(-3, 3.5f), new Vector2(2.9f, 3.2f), new Vector2(-2.8f, .5f), new Vector2(3.2f, 0), new Vector2(-3, -2.8f), new Vector2(2.7f, -3) };
