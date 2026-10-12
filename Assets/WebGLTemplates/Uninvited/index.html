@@ -35,6 +35,7 @@
     }
     fitViewport();
     window.addEventListener('resize', fitViewport);
+    window.addEventListener('pageshow', fitViewport);
     if (window.visualViewport) {
       window.visualViewport.addEventListener('resize', fitViewport);
       window.visualViewport.addEventListener('scroll', fitViewport);
@@ -57,7 +58,10 @@
     }).catch(error => { document.getElementById('error').textContent = 'Could not open the party: ' + error; });
     function pauseGame() { if (game) game.SendMessage('Uninvited Game', 'HandleBrowserFocusLost'); }
     window.addEventListener('blur', pauseGame);
-    document.addEventListener('visibilitychange', () => { if (document.hidden) pauseGame(); });
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) pauseGame();
+      else fitViewport();
+    });
     canvas.addEventListener('contextmenu', event => event.preventDefault());
   </script>
 </body>

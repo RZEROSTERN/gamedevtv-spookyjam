@@ -136,7 +136,8 @@ namespace Uninvited
         void CreateDialog()
         {
             var rect = Rect("Modal overlay", safe);
-            Stretch(rect); Image(rect, new Color(0, 0, 0, .8f));
+            // Keep the frozen board recognizable behind modal dialogs.
+            Stretch(rect); Image(rect, new Color(0, 0, 0, .55f));
             overlay = rect.gameObject;
             dialog = Rect("Dialog", rect);
             Place(dialog, Vector2.one * .5f, Vector2.one * .5f, Vector2.zero, new Vector2(480, 660));
@@ -352,6 +353,9 @@ namespace Uninvited
             hint.offsetMax = new Vector2(-14, landscape ? 52 : 88);
             instructions.fontSize = landscape ? 16 : 17;
             ReflowDialog();
+            // Short pause/result dialogs should not cover the whole board with
+            // empty panel space. Long construction/menu dialogs still scroll.
+            dialog.sizeDelta = new Vector2(dialog.sizeDelta.x, Mathf.Min(dialog.sizeDelta.y, contentY + 106));
             var bottom = footerHeight * scaler.scaleFactor;
             var top = headerHeight * scaler.scaleFactor;
             var board = new Rect(screenSafe.x, screenSafe.y + bottom, screenSafe.width, Mathf.Max(60, screenSafe.height - top - bottom));

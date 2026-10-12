@@ -12,3 +12,5 @@ Builds/
 *.slnx
 .vs/
 .idea/
+
+__pycache__/

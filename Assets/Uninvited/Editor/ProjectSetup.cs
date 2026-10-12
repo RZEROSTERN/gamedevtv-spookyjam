@@ -39,13 +39,16 @@ namespace Uninvited.Editor
             PlayerSettings.defaultScreenWidth = 540;
             PlayerSettings.defaultScreenHeight = 960;
             PlayerSettings.resizableWindow = true;
-            PlayerSettings.runInBackground = false;
+            // Keep rendering/layout alive when an iframe loses focus or resizes.
+            // GameBootstrap explicitly pauses the simulation on focus loss.
+            PlayerSettings.runInBackground = true;
             PlayerSettings.defaultInterfaceOrientation = UIOrientation.AutoRotation;
             PlayerSettings.allowedAutorotateToPortrait = true;
             PlayerSettings.allowedAutorotateToPortraitUpsideDown = true;
             PlayerSettings.allowedAutorotateToLandscapeLeft = true;
             PlayerSettings.allowedAutorotateToLandscapeRight = true;
-            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Disabled;
+            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Gzip;
+            PlayerSettings.WebGL.decompressionFallback = false;
             PlayerSettings.WebGL.template = "PROJECT:Uninvited";
             PlayerSettings.WebGL.initialMemorySize = 64;
             PlayerSettings.WebGL.maximumMemorySize = 256;
@@ -64,6 +67,7 @@ namespace Uninvited.Editor
         public static void BuildWeb()
         {
             if (!File.Exists(ScenePath)) Generate();
+            Verify();
             ConfigureProject();
             Directory.CreateDirectory("Builds/Web");
             var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions {
@@ -74,7 +78,7 @@ namespace Uninvited.Editor
                 throw new InvalidOperationException("Web build failed: " + report.summary.result);
             Debug.Log($"UNINVITED: Web build succeeded ({report.summary.totalSize} bytes).");
         }
-        public static void VerifyAndBuild() { Generate(); Verify(); BuildWeb(); }
+        public static void VerifyAndBuild() { Generate(); BuildWeb(); }
         public static void GenerateAndVerify() { Generate(); Verify(); }
     }
 }
