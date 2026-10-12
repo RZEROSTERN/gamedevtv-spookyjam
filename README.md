@@ -18,4 +18,4 @@ Open the party, build defenses during preparation, and start each wave when read
 [Implementation, balancing, export, and verification guide](Documentation/Implementation.md).
 
 The game, Web loading page, and delivery documentation are in English.
-Simulation and Play Mode checks are documented separately from browser checks. Chrome on a connected Pixel 10 has been tested using ADB touch events; simultaneous physical multitouch and other phones remain unverified. See the [browser verification report](Documentation/BrowserVerification.md).
+Simulation and Play Mode checks are documented separately from browser checks. Chrome on a connected Pixel 10 has been tested using ADB touch events and a subsequent human finger session. The tester reported comfortable controls; physical two-contact input and cancellation cases were corroborated by touchscreen traces and video. See the [browser verification report](Documentation/BrowserVerification.md) and the [finger/multitouch report](Documentation/TouchVerification.md) for exact coverage and remaining checks. Other phones remain unverified.

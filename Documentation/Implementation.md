@@ -104,7 +104,9 @@ For simulation within Unity, use **Uninvited → Verify gameplay rules**. For sc
 
 Chrome on a connected Pixel 10 running Android 16 was tested with ADB-generated touch events, including cardinal joystick directions, purchases, upgrades, rotation, background pause, restart, and a complete five-wave victory with 8 reserves remaining. This hardware run exposed and verified the fix for a joystick origin error missed by earlier constructed events. See the browser report for the exact build and scope.
 
-Pending: manual finger and physical mouse usability, simultaneous physical multitouch, browser-bar expansion/collapse, other safe-area shapes, human session timing, sustained performance profiling, and other browser/device combinations. Reported automation limitations remain visible in the browser report.
+A subsequent human finger session on the same Pixel 10 build received a comfortable-controls report. Touchscreen traces captured two simultaneous physical contacts; video and tester feedback corroborated owner-release, construction and pause/resume cancellation. See [TouchVerification.md](TouchVerification.md) for the evidence and its limits, including the second-finger-first release case supported only by the tester's report.
+
+Pending: broader finger usability, independent capture of the remaining finger sequences, physical mouse usability, browser-bar expansion/collapse, other safe-area shapes, human session timing, sustained performance profiling, and other browser/device combinations. Reported automation limitations remain visible in the browser report.
 
 ## References
 
