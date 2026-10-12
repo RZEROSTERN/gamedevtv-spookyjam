@@ -1,5 +1,7 @@
 # Web verification in Chrome
 
+See [ReleaseVerification.md](ReleaseVerification.md) for the October 12 gzip release, iframe rendering correction, Pixel full-match/performance run and pending deployment checks. Earlier sections below retain their original build/date scopes.
+
 ## Pixel 10 hardware: October 10, 2026
 
 Connected **Google Pixel 10**, **Android 16**, **Chrome 154.0.8037.126**. Unity 6000.3.5f2 IL2CPP Web build: **17,232,614 bytes**. The browser ran on the physical phone; taps and drags were injected with Android SDK ADB over USB. These are real-device single-pointer checks, not finger usability or simultaneous physical multitouch tests.

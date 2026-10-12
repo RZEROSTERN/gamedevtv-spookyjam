@@ -43,6 +43,8 @@ Preparation has no time limit. Construction and upgrades are blocked during comb
 
 The joystick belongs to the pointer that pressed it. Another pointer cannot drag or release it. Release, disable, opening a modal, pause, and viewport changes clear its direction and recenter the knob. A new press is required after cancellation. The joystick converts screen coordinates into its own RectTransform coordinates, subtracts the rectangle's visible center to account for its bottom-left pivot, and does not wait for a drag threshold.
 
+The Web player keeps its update/render loop enabled when an iframe loses focus, so resizing can repaint a paused board. `GameBootstrap` still pauses the simulation explicitly on blur/visibility loss; focus restoration does not resume the match. Short dialogs fit their content, and their backdrop is lighter so the frozen board remains recognizable. Browsers may still throttle or suspend hidden tabs.
+
 Board selection raycasts UI at the current press position using a reused pointer event and result list. It does not depend on cached pointer-over-UI state from the previous frame. A press on the joystick, header, footer, or dialog cannot select a slot underneath; once one board touch opens a modal, later touches in the same frame cannot replace it.
 
 Web HUD scaling uses the ratio between the canvas render width and its visible CSS width. This keeps control sizes independent of render pixel density. At the minimum HUD scale, 64-unit buttons have a height of 48 CSS pixels. This sizing rule is not a physical-device usability certification.
@@ -54,10 +56,10 @@ Portrait retains the main layout. Landscape uses shorter header/footer bars to g
 Use **Uninvited → Build Web** with Web Build Support installed. Output goes to `Builds/Web`, excluded from Git. Serve it over HTTP instead of opening `index.html` via `file://`:
 
 ```sh
-python3 -m http.server 8080 --directory Builds/Web
+python3 Tools/serve-web.py --port 8082
 ```
 
-Open `http://localhost:8080`. The local template includes loading feedback, safe-area padding, a render pixel-ratio cap of 2, visible-viewport sizing, and pause on tab hiding. It has no external Web dependencies.
+Open `http://localhost:8082`. The local template includes loading feedback, safe-area padding, a render pixel-ratio cap of 2, visible-viewport sizing, and pause on tab hiding. It rechecks the viewport on page restoration and return to visibility. It has no external Web dependencies.
 
 Build and simulation verification on the development Mac:
 
@@ -69,7 +71,7 @@ Build and simulation verification on the development Mac:
   -logFile /tmp/uninvited-build.log
 ```
 
-Compression is disabled for simple prototype hosting. Brotli and the corresponding HTTP headers are a future hosting improvement.
+The release build uses gzip without JavaScript decompression fallback. The preview server supplies `Content-Encoding: gzip` and the underlying MIME type; itch.io documents automatic gzip detection. A generic server without these headers will not load this build correctly. `python3 Tools/package-web.py` validates exact-case relative build references and packages the files with a root `index.html` into `Builds/Release/uninvited-web.zip`, alongside a hash manifest. See [ItchDeploymentBrief.md](ItchDeploymentBrief.md) for upload settings and page copy.
 
 The [Unity 6.3 browser compatibility documentation](https://docs.unity.com/en-us/engine/6000.3/manual/platform-specific/webgl/intro/browsercompatibility) describes engine requirements, including WebGL 2 and WebAssembly. Engine support does not establish tested compatibility for this game. iOS and Android editor modules are installed, but native builds and store releases have not been generated or tested.
 
@@ -106,7 +108,9 @@ Chrome on a connected Pixel 10 running Android 16 was tested with ADB-generated 
 
 A subsequent human finger session on the same Pixel 10 build received a comfortable-controls report. Touchscreen traces captured two simultaneous physical contacts; video and tester feedback corroborated owner-release, construction and pause/resume cancellation. See [TouchVerification.md](TouchVerification.md) for the evidence and its limits, including the second-finger-first release case supported only by the tester's report.
 
-Pending: broader finger usability, independent capture of the remaining finger sequences, physical mouse usability, browser-bar expansion/collapse, other safe-area shapes, human session timing, sustained performance profiling, and other browser/device combinations. Reported automation limitations remain visible in the browser report.
+The October 12 release session also checked a local iframe size matrix, simulated safe-area margins, actual Pixel fullscreen/bar restoration, rotation, background return and a complete five-wave victory. A five-minute Pixel metric sample and before/after thermal readings are recorded in [ReleaseVerification.md](ReleaseVerification.md).
+
+Pending: broader finger usability, independent capture of the remaining finger sequences, physical mouse usability, scroll-driven browser-bar collapse, other physical safe-area shapes, human session timing/difficulty, longer sustained performance testing, and other browser/device combinations. The user requested a ZIP and manual deployment brief and deferred human checks; those procedures are in the brief. Reported automation limitations remain visible in the browser and release reports.
 
 ## References
 
