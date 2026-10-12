@@ -1,0 +1,273 @@
+[
+  {
+    "seconds": 64.662,
+    "action": "button",
+    "label": "Open the party"
+  },
+  {
+    "seconds": 66.617,
+    "action": "preparation",
+    "wave": 1,
+    "hud": [
+      "Reserves 20 \u2022 Resources 100",
+      "Preparation \u2022 next 1/5"
+    ]
+  },
+  {
+    "seconds": 68.648,
+    "action": "button",
+    "label": "Choose Pumpkin"
+  },
+  {
+    "seconds": 70.173,
+    "action": "button",
+    "label": "Confirm purchase \u2022 50"
+  },
+  {
+    "seconds": 70.174,
+    "action": "build",
+    "slot": 3,
+    "kind": "Pumpkin"
+  },
+  {
+    "seconds": 71.738,
+    "action": "button",
+    "label": "Choose Pumpkin"
+  },
+  {
+    "seconds": 73.193,
+    "action": "button",
+    "label": "Confirm purchase \u2022 50"
+  },
+  {
+    "seconds": 73.194,
+    "action": "build",
+    "slot": 4,
+    "kind": "Pumpkin"
+  },
+  {
+    "seconds": 74.959,
+    "action": "guardian moved using joystick"
+  },
+  {
+    "seconds": 76.316,
+    "action": "button",
+    "label": "Start wave"
+  },
+  {
+    "seconds": 76.317,
+    "action": "wave started",
+    "wave": 1
+  },
+  {
+    "seconds": 96.785,
+    "action": "preparation",
+    "wave": 2,
+    "hud": [
+      "Reserves 20 \u2022 Resources 96",
+      "Preparation \u2022 next 2/5"
+    ]
+  },
+  {
+    "seconds": 98.173,
+    "action": "button",
+    "label": "Choose Speaker"
+  },
+  {
+    "seconds": 99.353,
+    "action": "button",
+    "label": "Confirm purchase \u2022 80"
+  },
+  {
+    "seconds": 99.354,
+    "action": "build",
+    "slot": 5,
+    "kind": "Speaker"
+  },
+  {
+    "seconds": 100.437,
+    "action": "button",
+    "label": "Start wave"
+  },
+  {
+    "seconds": 100.437,
+    "action": "wave started",
+    "wave": 2
+  },
+  {
+    "seconds": 128.512,
+    "action": "preparation",
+    "wave": 3,
+    "hud": [
+      "Reserves 20 \u2022 Resources 165",
+      "Preparation \u2022 next 3/5"
+    ]
+  },
+  {
+    "seconds": 129.866,
+    "action": "button",
+    "label": "Choose Web"
+  },
+  {
+    "seconds": 131.099,
+    "action": "button",
+    "label": "Confirm purchase \u2022 60"
+  },
+  {
+    "seconds": 131.1,
+    "action": "build",
+    "slot": 1,
+    "kind": "Web"
+  },
+  {
+    "seconds": 132.521,
+    "action": "button",
+    "label": "Confirm upgrade \u2022 55"
+  },
+  {
+    "seconds": 132.523,
+    "action": "upgrade",
+    "slot": 3
+  },
+  {
+    "seconds": 133.823,
+    "action": "button",
+    "label": "Choose Pumpkin"
+  },
+  {
+    "seconds": 134.911,
+    "action": "button",
+    "label": "Confirm purchase \u2022 50"
+  },
+  {
+    "seconds": 134.912,
+    "action": "build",
+    "slot": 6,
+    "kind": "Pumpkin"
+  },
+  {
+    "seconds": 136.394,
+    "action": "button",
+    "label": "Start wave"
+  },
+  {
+    "seconds": 136.395,
+    "action": "wave started",
+    "wave": 3
+  },
+  {
+    "seconds": 176.541,
+    "action": "preparation",
+    "wave": 4,
+    "hud": [
+      "Reserves 9 \u2022 Resources 121",
+      "Preparation \u2022 next 4/5"
+    ]
+  },
+  {
+    "seconds": 177.959,
+    "action": "button",
+    "label": "Confirm upgrade \u2022 55"
+  },
+  {
+    "seconds": 177.961,
+    "action": "upgrade",
+    "slot": 4
+  },
+  {
+    "seconds": 179.413,
+    "action": "button",
+    "label": "Confirm upgrade \u2022 55"
+  },
+  {
+    "seconds": 179.414,
+    "action": "upgrade",
+    "slot": 6
+  },
+  {
+    "seconds": 180.516,
+    "action": "button",
+    "label": "Start wave"
+  },
+  {
+    "seconds": 180.517,
+    "action": "wave started",
+    "wave": 4
+  },
+  {
+    "seconds": 220.447,
+    "action": "preparation",
+    "wave": 5,
+    "hud": [
+      "Reserves 9 \u2022 Resources 263",
+      "Preparation \u2022 next 5/5"
+    ]
+  },
+  {
+    "seconds": 221.844,
+    "action": "button",
+    "label": "Confirm upgrade \u2022 50"
+  },
+  {
+    "seconds": 221.846,
+    "action": "upgrade",
+    "slot": 1
+  },
+  {
+    "seconds": 223.442,
+    "action": "button",
+    "label": "Confirm upgrade \u2022 70"
+  },
+  {
+    "seconds": 223.443,
+    "action": "upgrade",
+    "slot": 5
+  },
+  {
+    "seconds": 224.742,
+    "action": "button",
+    "label": "Choose Pumpkin"
+  },
+  {
+    "seconds": 225.957,
+    "action": "button",
+    "label": "Confirm purchase \u2022 50"
+  },
+  {
+    "seconds": 225.958,
+    "action": "build",
+    "slot": 2,
+    "kind": "Pumpkin"
+  },
+  {
+    "seconds": 227.073,
+    "action": "button",
+    "label": "Confirm upgrade \u2022 55"
+  },
+  {
+    "seconds": 227.074,
+    "action": "upgrade",
+    "slot": 2
+  },
+  {
+    "seconds": 228.313,
+    "action": "button",
+    "label": "Start wave"
+  },
+  {
+    "seconds": 228.313,
+    "action": "wave started",
+    "wave": 5
+  },
+  {
+    "seconds": 272.929,
+    "action": "victory",
+    "labels": [
+      "Reserves 9 \u2022 Resources 374",
+      "Party saved!",
+      "Reserves: 9",
+      "Waves completed: 5/5",
+      "Combat: 158 seconds"
+    ]
+  }
+]

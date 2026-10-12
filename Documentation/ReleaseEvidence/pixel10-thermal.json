@@ -1,0 +1,48 @@
+{
+  "before": {
+    "thermalStatus": 0,
+    "currentHalSensors": [
+      {
+        "name": "battery",
+        "type": 2,
+        "celsius": 31.7,
+        "status": 0
+      },
+      {
+        "name": "VIRTUAL-SKIN",
+        "type": 3,
+        "celsius": 32.474922,
+        "status": 0
+      }
+    ],
+    "charging": {
+      "AC powered": "true",
+      "USB powered": "false",
+      "level": "80",
+      "temperature": "316"
+    }
+  },
+  "after": {
+    "thermalStatus": 0,
+    "currentHalSensors": [
+      {
+        "name": "battery",
+        "type": 2,
+        "celsius": 32.100002,
+        "status": 0
+      },
+      {
+        "name": "VIRTUAL-SKIN",
+        "type": 3,
+        "celsius": 32.89282,
+        "status": 0
+      }
+    ],
+    "charging": {
+      "AC powered": "true",
+      "USB powered": "false",
+      "level": "80",
+      "temperature": "321"
+    }
+  }
+}
